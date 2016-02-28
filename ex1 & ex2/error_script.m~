@@ -5,8 +5,8 @@ function error_script()
 
 %%CONDITIONS
 R = 1000;
-C = 100e-9;
-qc0 = 500e-9;
+C = 100 * 10^-3;
+qc0 = 500 * 10^-9;
 %qc0 = 0;
 t0 = 0;
 tf = 0.001;
@@ -54,11 +54,17 @@ Vexact(1) = qc0/C;
 
 tau = 1/(R*C);
 w = 2*pi/T;
-k = qc0 - (Vin*C)/(1+(w*R*C)^2);
+
 %%
 for i =1:Nsteps
-qc = (Vin*C)/(1+(w*R*C)^2)*cos(w*t) + (w*Vin*R*C^2)/(1+(w*R*C)^2)*sin(w*t) + k*exp(-t/(R*C)) ; 
+    
+%qc = (Vin/R)*(1/(tau^2 + w^2))*(tau*cos(w*t) + w*sin(w*t) + (qc0*R/Vin*(tau^2 + w^2)-tau)*exp(-t*tau));
+%qc = (Vin*C*R^2*w*sin(w*t))/(1+(w*R^2*C^2)) + (Vin*C*cos(w*t))/(1+(w^2*R^2*C^2)) + 4.88e-7*exp(-t*tau);
+%qc = 1.26651*cos(w*t) + 7.95775*sin(w*t) - 1.2665*exp(-t*tau);
 t = t+h; 
+
+%Texact(i+1) = t; 
 Vexact(i+1) = qc/C;
+
 end
 end

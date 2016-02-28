@@ -32,14 +32,12 @@ Vout(i+1) = qc/C;
 end
 %}
 %%
-for i = 1:Nsteps
+for i = 1:Nsteps+1
     k1 = h*f(Tout(i),q(i));
     k2 = h*f(Tout(i)+0.5*h,q(i)+0.5*k1);
-    q(i+1) = q(i) + k2;   
+     
+    
 end
-
-Vout = q./C;
-
 end
 
 %%f(x,y) = dy/dx

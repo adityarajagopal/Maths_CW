@@ -1,4 +1,4 @@
-function [ x_it,y_it ] = rukasecond( x, y, t, h, func)
+sfunction [ x_it,y_it ] = rukasecond( x, y, t, h, func)
 %RK_4_2 Step of 4th order Runge-Kutta algorithm for second order ODE
 %   Detailed explanation goes here
     k_y1=func(x, y, t);
