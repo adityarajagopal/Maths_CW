@@ -1,0 +1,128 @@
+%% MIDPOINT_SCRIPT PLOT
+%%
+% *function midpoint_script()*
+%
+% *CONDITIONS*
+
+R = 1000;
+C = 100e-9;
+qc0 = 500e-9;
+%qc0 = 0;
+tf = 0.003;
+h  = 0.000001;
+
+clear plot;
+
+%%
+% *STEP SIGNAL*
+Vin = @(t) 2.5;
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+figure(1);
+plot(Tout,Vout);
+
+title('Graph of Vout against time of Step Signal');
+xlabel('Time(s)');
+ylabel('Vout(V)');
+legend('Amplitude Vin = 2.5')
+
+%%
+% *DECAY SIGNAL*
+Vin = @(t) 2.5*exp(-t/(100e-6));
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C); 
+figure(2)
+plot(Tout,Vout,'-r.');
+hold on
+
+Vin = @(t) 2.5*exp(-(t^2)/(100e-12));
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C); 
+plot(Tout,Vout,'-b.');
+
+title('Graph of Vout against time of Decay Signal');
+xlabel('Time(s)');
+ylabel('Vout(V)');
+legend('Amplitude tau = 100e-6','Amplitude tau = 100(e-6)^2');
+
+%%
+% *SQUARE SIGNAL*
+Vin = @(t) 5*square((2*pi/(10e-6))*t);
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+figure(3);
+plot(Tout,Vout,'-r.');
+hold on
+
+Vin = @(t) 5*square((2*pi/(100e-6))*t);
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+plot(Tout,Vout,'-b.');
+hold on
+
+Vin = @(t) 5*square((2*pi/(500e-6))*t);
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+plot(Tout,Vout,'-g.');
+hold on
+
+Vin = @(t) 5*square((2*pi/(1000e-6))*t);
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+plot(Tout,Vout,'-k.');
+
+
+title('Graph of Vout against time of Square Signal');
+xlabel('Time(s)');
+ylabel('Vout(V)'); 
+legend('T=10e-6','T=100e-6', 'T=500e-6','T=1000e-6');
+
+%%
+% *SINE SIGNAL*
+Vin = @(t) 5*sin((2*pi/(10e-6))*t);
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+figure(4);
+plot(Tout,Vout,'-r.');
+hold on
+
+Vin = @(t) 5*sin((2*pi/(100e-6))*t);
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+plot(Tout,Vout,'-b.');
+hold on
+
+Vin = @(t) 5*sin((2*pi/(500e-6))*t);
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+plot(Tout,Vout,'-g.');
+hold on
+
+Vin = @(t) 5*sin((2*pi/(1000e-6))*t);
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+plot(Tout,Vout,'-k.');
+
+
+title('Graph of Vout against time of Sine Signal');
+xlabel('Time(s)');
+ylabel('Vout(V)'); 
+legend('T=10e-6','T=100e-6', 'T=500e-6','T=1000e-6');
+
+%%
+% *SAWTOOTH SIGNAL*
+Vin = @(t) 5*sawtooth((2*pi/(10e-6))*t);
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+figure(5);
+plot(Tout,Vout,'-r.');
+hold on
+
+Vin = @(t) 5*sawtooth((2*pi/(100e-6))*t);
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+plot(Tout,Vout,'-b.');
+hold on
+
+Vin = @(t) 5*sawtooth((2*pi/(500e-6))*t);
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+plot(Tout,Vout,'-g.');
+hold on
+
+Vin = @(t) 5*sawtooth((2*pi/(1000e-6))*t);
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+plot(Tout,Vout,'-k.');
+
+
+title('Graph of Vout against time of Sawtooth Signal');
+xlabel('Time(s)');
+ylabel('Vout(V)'); 
+legend('T=10e-6','T=100e-6', 'T=500e-6','T=1000e-6');
+%end
