@@ -1,6 +1,9 @@
 %% MIDPOINT_SCRIPT PLOT
-%function midpoint_script()
-%%CONDITIONS
+%%
+% *function midpoint_script()*
+%
+% *CONDITIONS*
+
 R = 1000;
 C = 100e-9;
 qc0 = 500e-9;
@@ -11,19 +14,19 @@ h  = 0.000001;
 clear plot;
 
 %%
-%STEP SIGNAL
-Vin = @(t) 2.5*heaviside(t);
+% *STEP SIGNAL*
+Vin = @(t) 2.5;
 [Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
 figure(1);
 plot(Tout,Vout);
 
-title('Graph of Vout against tim e of Step Signal');
+title('Graph of Vout against time of Step Signal');
 xlabel('Time(s)');
 ylabel('Vout(V)');
 legend('Amplitude Vin = 2.5')
 
 %%
-%DECAY SIGNAL
+% *DECAY SIGNAL*
 Vin = @(t) 2.5*exp(-t/(100e-6));
 [Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C); 
 figure(2)
@@ -40,7 +43,7 @@ ylabel('Vout(V)');
 legend('Amplitude tau = 100e-6','Amplitude tau = 100(e-6)^2');
 
 %%
-%SQUARE SIGNAL
+% *SQUARE SIGNAL*
 Vin = @(t) 5*square((2*pi/(10e-6))*t);
 [Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
 figure(3);
@@ -68,7 +71,7 @@ ylabel('Vout(V)');
 legend('T=10e-6','T=100e-6', 'T=500e-6','T=1000e-6');
 
 %%
-%SINE SIGNAL
+% *SINE SIGNAL*
 Vin = @(t) 5*sin((2*pi/(10e-6))*t);
 [Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
 figure(4);
@@ -96,7 +99,7 @@ ylabel('Vout(V)');
 legend('T=10e-6','T=100e-6', 'T=500e-6','T=1000e-6');
 
 %%
-%SAWTOOTH SIGNAL
+% *SAWTOOTH SIGNAL*
 Vin = @(t) 5*sawtooth((2*pi/(10e-6))*t);
 [Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
 figure(5);

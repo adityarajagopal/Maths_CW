@@ -1,5 +1,4 @@
 %% RUNGE-Kutta_SCRIPT PLOT
-%function rukasecond_script()
 
 %%CONDITIONS
 R=250;

@@ -93,7 +93,7 @@ plot(Tout,Vout,'-k.');
 title('Graph of Vout against time of Sine Signal');
 xlabel('Time(s)');
 ylabel('Vout(V)'); 
-legend('T=10e-6','T=100e-6', 'T=500e-6','T=1000e-6');
+legend('T=10us','T=100e-6', 'T=500e-6','T=1e-3');
 
 %%
 %SAWTOOTH SIGNAL
@@ -121,5 +121,5 @@ plot(Tout,Vout,'-k.');
 title('Graph of Vout against time of Sawtooth Signal');
 xlabel('Time(s)');
 ylabel('Vout(V)'); 
-legend('T=10e-6','T=100e-6', 'T=500e-6','T=1000e-6');
+legend('T=10e-6','T=100e-6', 'T=500e-6','T=1e-3');
 %end
