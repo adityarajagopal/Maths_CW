@@ -1,0 +1,156 @@
+%% RUNGE-Kutta_SCRIPT PLOT
+function RLC_script()
+%%CONDITIONS
+R=250;
+L=600e-3;
+C=3.5e-6;
+h=0.0000008;
+N=100000;
+q(1)=500e-9;
+i(1)=0;
+
+
+%%
+%STEP SIGNAL
+v_in = @(t) 5*heaviside(t);
+[Tout,Vout] = N_step_rk();
+figure(1);
+plot(Tout,Vout);
+
+title('Graph of Vout against time for a Step Signal');
+xlabel('Time(s)');
+ylabel('Vout(V)');
+legend('Amplitude Vin = 5V')
+
+%SQUARE WAVE
+sin_f=@(t) sin(2*pi*f*t);
+%SINE WAVE
+sqr_f=@(t) heaviside(sin(2*pi*f*t));
+
+
+%%
+%DECAY SIGNAL
+v_in = @(t) 5*heaviside(t)*exp(-t^2/(0.003));
+[Tout,Vout] = N_step_rk(); 
+figure(2)
+plot(Tout,Vout,'-r.');
+
+title('Graph of Vout against time for Decay Signal input');
+xlabel('Time(s)');
+ylabel('Vout(V)');
+legend('Amplitude tau = 3ms');
+
+%%
+%SQUARE SIGNAL
+Vin = @(t) 5*square((2*pi/(10e-6))*t);
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+figure(3);
+plot(Tout,Vout,'-r.');
+hold on
+
+Vin = @(t) 5*square((2*pi/(100e-6))*t);
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+plot(Tout,Vout,'-b.');
+hold on
+
+Vin = @(t) 5*square((2*pi/(500e-6))*t);
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+plot(Tout,Vout,'-g.');
+hold on
+
+Vin = @(t) 5*square((2*pi/(1000e-6))*t);
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+plot(Tout,Vout,'-k.');
+
+
+title('Graph of Vout against time for Square Signal inputs');
+xlabel('Time(s)');
+ylabel('Vout(V)'); 
+legend('T=10e-6','T=100e-6', 'T=500e-6','T=1000e-6');
+
+%%
+%SINE SIGNAL
+Vin = @(t) 5*sin((2*pi/(10e-6))*t);
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+figure(4);
+plot(Tout,Vout,'-r.');
+hold on
+
+Vin = @(t) 5*sin((2*pi/(100e-6))*t);
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+plot(Tout,Vout,'-b.');
+hold on
+
+Vin = @(t) 5*sin((2*pi/(500e-6))*t);
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+plot(Tout,Vout,'-g.');
+hold on
+
+Vin = @(t) 5*sin((2*pi/(1000e-6))*t);
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+plot(Tout,Vout,'-k.');
+
+
+title('Graph of Vout against time of Sine Signal inputs');
+xlabel('Time(s)');
+ylabel('Vout(V)'); 
+legend('T=10e-6','T=100e-6', 'T=500e-6','T=1000e-6');
+
+%%
+%SAWTOOTH SIGNAL
+Vin = @(t) 5*sawtooth((2*pi/(10e-6))*t);
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+figure(5);
+plot(Tout,Vout,'-r.');
+hold on
+
+Vin = @(t) 5*sawtooth((2*pi/(100e-6))*t);
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+plot(Tout,Vout,'-b.');
+hold on
+
+Vin = @(t) 5*sawtooth((2*pi/(500e-6))*t);
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+plot(Tout,Vout,'-g.');
+hold on
+
+Vin = @(t) 5*sawtooth((2*pi/(1000e-6))*t);
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+plot(Tout,Vout,'-k.');
+
+
+title('Graph of Vout against time of Sawtooth Signal');
+xlabel('Time(s)');
+ylabel('Vout(V)'); 
+legend('T=10e-6','T=100e-6', 'T=500e-6','T=1000e-6');
+
+
+%CLASSIC FOURTH-ORDER RUNGE-KUTTA ALGORITHM FOR N STEPS
+function [Tout,Vout] = N_steps_rk()
+    q=zeros(N,1);
+    i=zeros(N,1);
+    func=@(q, i, t) (1/L)*(v_in(t)-(R*i)-(q/C)); 
+    t=(0:h:h*(N-1));
+    for ind = 1:N-1
+       [q(ind+1), i(ind+1)]=rukasecond(q(ind), i(ind), t(ind), h, func); 
+    end
+    Tout=t;
+    Vout=R*i;
+end
+% 
+% %plot(sin(2*pi*109*t));
+% %VOLTAGE PLOT
+% subplot(3, 1, 1);
+% plot(t, q);
+% title('Graph of Vout against time of Signal');
+% xlabel('Time (s)');
+% ylabel('Vout (V)');
+% %CURRENT PLOT
+% subplot(3, 1, 2);
+% plot(t, i);
+% title('Graph of Iout against time of Signal');
+% xlabel('Time (s)');
+% ylabel('Iout (A)');
+% %INPUT SIGNAL PLOT
+% subplot(3, 1, 3);
+% plot(t, in);

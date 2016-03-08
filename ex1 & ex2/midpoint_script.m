@@ -17,7 +17,7 @@ Vin = @(t) 2.5*heaviside(t);
 figure(1);
 plot(Tout,Vout);
 
-title('Graph of Vout against tim e of Step Signal');
+title('Graph of Vout against time for Step Signal input');
 xlabel('Time(s)');
 ylabel('Vout(V)');
 legend('Amplitude Vin = 2.5')
@@ -34,7 +34,7 @@ Vin = @(t) 2.5*exp(-(t^2)/(100e-12));
 [Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C); 
 plot(Tout,Vout,'-b.');
 
-title('Graph of Vout against time of Decay Signal');
+title('Graph of Vout against time for Decay Signal input');
 xlabel('Time(s)');
 ylabel('Vout(V)');
 legend('Amplitude tau = 100e-6','Amplitude tau = 100(e-6)^2');
@@ -62,7 +62,7 @@ Vin = @(t) 5*square((2*pi/(1000e-6))*t);
 plot(Tout,Vout,'-k.');
 
 
-title('Graph of Vout against time of Square Signal');
+title('Graph of Vout against time for Square Signal inputs');
 xlabel('Time(s)');
 ylabel('Vout(V)'); 
 legend('T=10e-6','T=100e-6', 'T=500e-6','T=1000e-6');
@@ -90,7 +90,7 @@ Vin = @(t) 5*sin((2*pi/(1000e-6))*t);
 plot(Tout,Vout,'-k.');
 
 
-title('Graph of Vout against time of Sine Signal');
+title('Graph of Vout against time of Sine Signal inputs');
 xlabel('Time(s)');
 ylabel('Vout(V)'); 
 legend('T=10e-6','T=100e-6', 'T=500e-6','T=1000e-6');
