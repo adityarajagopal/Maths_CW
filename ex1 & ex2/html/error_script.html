@@ -1,0 +1,273 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>1) RC circuit - Excercise 2</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-03-09"><meta name="DC.source" content="error_script.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>1) RC circuit - Excercise 2</h1><p><b>Introduction:</b></p><p>The following script observes the error from the solutions obtained through the midpoint method compared to the exact solution for different values of h. We defined an auxiliary function <b>exactcosine</b> to generate the values of the exact solution for a given t. This auxiliary function is only available within the script. Before analysing the error order we have ploted comparisons of the midpoint versus the exact solution.</p><p><b>Mathematics involved:</b></p><p>The following equation characterizes the system:</p><p><img src="error_script_eq01238698091755073257.png" alt="$$ \frac{1}{C}q_{c}(t) + R \dot{q}_{C}(t) = V_{in}(t) $$" style="width:157px;height:31px;"></p><p>For this example the input will be a cosine. The exact answer for any frequency cosine was found, through the integrating factor method is</p><p><img src="error_script_eq06076930263619008301.png" alt="$$ q_{C} = \frac{VinC}{1+(wRC)^2}cos(wt) + \frac{wVinRC^2}{1+(wRC)^2}sin(wt) + ke^{\frac{-t}{RC}} $$" style="width:355px;height:36px;"></p><p>Where k is determined bye:</p><p><img src="error_script_eq10201573910041344422.png" alt="$$k = qc0 - \frac{(Vin*C)}{(1+(w*R*C)^2)} $$" style="width:183px;height:35px;"></p><p><b>Code</b></p><pre class="codeinput"><span class="keyword">function</span> error_script()
+</pre><pre class="codeinput"><span class="comment">%%CONDITIONS</span>
+R = 1000;
+C = 100e-9;
+qc0 = 500e-9;
+t0 = 0;
+tf = 0.001;
+h  = 0.000005;
+
+T = 100e-6    ;
+Vin = @(t)5*cos(2*pi*t/T);
+
+<span class="comment">%%graph midpoint method</span>
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
+figure(1)
+plot(Tout,Vout,<span class="string">'-r'</span>);
+grid <span class="string">on</span>
+hold <span class="string">on</span>
+
+
+<span class="comment">%%graph exact solution</span>
+Vamp = 5;
+[Texact,Vexact] = exactcosine(qc0,h,tf,Vamp,R,C,T);
+figure(1);
+plot(Texact,Vexact,<span class="string">'-b'</span>);
+grid <span class="string">on</span>
+
+title(<span class="string">'Comparison between Midpoint and exact solution for h=5us'</span>)
+xlabel(<span class="string">'Time(s)'</span>);
+ylabel(<span class="string">'Vout(V)'</span>);
+legend(<span class="string">'Midpoint'</span>,<span class="string">'Exact'</span>);
+</pre><img vspace="5" hspace="5" src="error_script_01.png" style="width:560px;height:420px;" alt=""> <pre class="codeinput"><span class="comment">%*Error Analysis*</span>
+<span class="comment">% To analyze the incurred error order we will find the maximum error in the</span>
+<span class="comment">% midpoint solution for a given value of h. At the same time we will plot</span>
+<span class="comment">% these solutions to zoom in the graph and observe the error, as a means of</span>
+<span class="comment">% visually understanding the impact of h.</span>
+error_iter = 5;
+error = zeros(1, error_iter);
+h=zeros(1, error_iter);
+CM=jet(error_iter); <span class="comment">%Create colour scheme for the different midpoint solutions</span>
+
+figure(2);
+hold <span class="string">on</span>;
+axis([3.222e-4, 3.225e-4,0.9796 0.9804]) <span class="comment">% Constraint the axis to the relevant area</span>
+<span class="keyword">for</span> l = 1:1:error_iter
+    h(l)=0.00001*2^-(l+2);
+    [Tout,Vout] = midpoint(qc0,h(l),tf,Vin,R,C);
+    [Texact,Vexact] = exactcosine(qc0,h(l),tf,Vamp,R,C,T);
+    error(l)=max(abs(Vout-Vexact));
+    plot(Tout, Vout, <span class="string">'color'</span>, CM(l,:));
+<span class="keyword">end</span>
+plot(Texact, Vexact, <span class="string">'color'</span>, <span class="string">'k'</span>); <span class="comment">%Also add the exact solution to the comparison</span>
+title(<span class="string">'Supperposed approaches of solution'</span>);
+xlabel(<span class="string">'Time(s)'</span>);
+ylabel(<span class="string">'Vout(V)'</span>);
+legend(<span class="string">'h=12.5us'</span>,<span class="string">'h=6.25us'</span>,<span class="string">'h=3.13us'</span>,<span class="string">'h=1.56us'</span>,<span class="string">'h=0.78us'</span>,<span class="string">'exact solution'</span>);
+</pre><img vspace="5" hspace="5" src="error_script_02.png" style="width:560px;height:420px;" alt=""> <pre class="codeinput"><span class="comment">%The graph clearly shows how decreasing the value of h improves the</span>
+<span class="comment">%solution</span>
+
+figure(3);
+plot(log(h), log(error), <span class="string">'b*'</span>);
+title(<span class="string">'Error Analysis for given Cosine (log-log graph)'</span>)
+xlabel(<span class="string">'h value(s)'</span>);
+ylabel(<span class="string">'error(V)'</span>)
+
+<span class="keyword">function</span> [Texact,Vexact] = exactcosine(qc0,h,tf,Vin,R,C,T)
+</pre><pre class="codeinput">    t = 0;
+    Nsteps = round((tf-t)/h); <span class="comment">%% number of steps to take</span>
+    Texact = t:h:tf;
+    Vexact(1:Nsteps) = 0;
+
+    <span class="comment">%%store intial condition</span>
+    Vexact(1) = qc0/C;
+
+    w = 2*pi/T;
+    k = qc0 - (Vin*C)/(1+(w*R*C)^2);
+</pre><pre class="codeinput">    <span class="keyword">for</span> i =1:Nsteps
+        qc = (Vin*C)/(1+(w*R*C)^2)*cos(w*t) + (w*Vin*R*C^2)/(1+(w*R*C)^2)*sin(w*t) + k*exp(-t/(R*C)) ;
+        t = t+h;
+        Vexact(i+1) = qc/C;
+    <span class="keyword">end</span>
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="error_script_03.png" style="width:560px;height:420px;" alt=""> <pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% 1) RC circuit - Excercise 2
+%
+%
+% *Introduction:*
+% 
+% The following script observes the error from the solutions obtained 
+% through the midpoint method compared to the exact solution for different
+% values of h. We defined an auxiliary function *exactcosine* to generate 
+% the values of the exact solution for a given t. This auxiliary function
+% is only available within the script. Before analysing the error order we
+% have ploted comparisons of the midpoint versus the exact solution.
+%
+% *Mathematics involved:*
+%
+% The following equation characterizes the system:
+% 
+% $$ \frac{1}{C}q_{c}(t) + R \dot{q}_{C}(t) = V_{in}(t) $$
+%
+% For this example the input will be a cosine. The exact answer for any
+% frequency cosine was found, through the integrating factor method is
+%
+% $$ q_{C} = \frac{VinC}{1+(wRC)^2}cos(wt) + \frac{wVinRC^2}{1+(wRC)^2}sin(wt) + ke^{\frac{-t}{RC}} $$ 
+%
+% Where k is determined bye:
+%
+% $$k = qc0 - \frac{(Vin*C)}{(1+(w*R*C)^2)} $$
+%
+% *Code*
+
+function error_script()
+
+%%CONDITIONS
+R = 1000;
+C = 100e-9;
+qc0 = 500e-9;
+t0 = 0;
+tf = 0.001;
+h  = 0.000005;
+
+T = 100e-6    ;
+Vin = @(t)5*cos(2*pi*t/T);
+
+%%graph midpoint method
+[Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C); 
+figure(1)
+plot(Tout,Vout,'-r');
+grid on
+hold on 
+
+
+%%graph exact solution
+Vamp = 5;
+[Texact,Vexact] = exactcosine(qc0,h,tf,Vamp,R,C,T); 
+figure(1);
+plot(Texact,Vexact,'-b');
+grid on
+
+title('Comparison between Midpoint and exact solution for h=5us') 
+xlabel('Time(s)');
+ylabel('Vout(V)');
+legend('Midpoint','Exact');
+
+%% 
+%*Error Analysis*
+% To analyze the incurred error order we will find the maximum error in the
+% midpoint solution for a given value of h. At the same time we will plot
+% these solutions to zoom in the graph and observe the error, as a means of
+% visually understanding the impact of h.
+error_iter = 5;
+error = zeros(1, error_iter);
+h=zeros(1, error_iter);
+CM=jet(error_iter); %Create colour scheme for the different midpoint solutions
+
+figure(2);
+hold on;
+axis([3.222e-4, 3.225e-4,0.9796 0.9804]) % Constraint the axis to the relevant area
+for l = 1:1:error_iter
+    h(l)=0.00001*2^-(l+2);
+    [Tout,Vout] = midpoint(qc0,h(l),tf,Vin,R,C); 
+    [Texact,Vexact] = exactcosine(qc0,h(l),tf,Vamp,R,C,T);
+    error(l)=max(abs(Vout-Vexact));
+    plot(Tout, Vout, 'color', CM(l,:));
+end
+plot(Texact, Vexact, 'color', 'k'); %Also add the exact solution to the comparison
+title('Supperposed approaches of solution');
+xlabel('Time(s)');
+ylabel('Vout(V)');
+legend('h=12.5us','h=6.25us','h=3.13us','h=1.56us','h=0.78us','exact solution');
+%%
+%The graph clearly shows how decreasing the value of h improves the
+%solution
+
+figure(3);
+plot(log(h), log(error), 'b*');
+title('Error Analysis for given Cosine (log-log graph)') 
+xlabel('h value(s)');
+ylabel('error(V)')
+
+function [Texact,Vexact] = exactcosine(qc0,h,tf,Vin,R,C,T)
+    t = 0;
+    Nsteps = round((tf-t)/h); %% number of steps to take
+    Texact = t:h:tf;
+    Vexact(1:Nsteps) = 0;
+
+    %%store intial condition 
+    Vexact(1) = qc0/C;
+
+    w = 2*pi/T;
+    k = qc0 - (Vin*C)/(1+(w*R*C)^2);
+    %%
+    for i =1:Nsteps
+        qc = (Vin*C)/(1+(w*R*C)^2)*cos(w*t) + (w*Vin*R*C^2)/(1+(w*R*C)^2)*sin(w*t) + k*exp(-t/(R*C)) ; 
+        t = t+h; 
+        Vexact(i+1) = qc/C;
+    end
+end
+end
+
+##### SOURCE END #####
+--></body></html>

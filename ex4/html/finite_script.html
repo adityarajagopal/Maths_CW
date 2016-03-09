@@ -1,0 +1,260 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>3) Finite Differences - Ex4</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-03-09"><meta name="DC.source" content="finite_script.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>3) Finite Differences - Ex4</h1><p><b>Introduction</b></p><p>The following code implements the Finite Difference Method of solving boundary value problems (BVP) for ordinary differential equations (ODE). This method differs from previous methods in that rather than knowing the initial conditions for the ODE we know the value at the start and end of an interval. BVP problems do not always have a solution, however for those that do one method of solving them is using finite differences.</p><pre class="codeinput"><span class="comment">%*Mathematics Involved*</span>
+<span class="comment">%</span>
+<span class="comment">% The finite differences method splits the interval into steps and uses</span>
+<span class="comment">% these steps to obtain estimates for the first and second derivative which</span>
+<span class="comment">% are:</span>
+<span class="comment">%</span>
+<span class="comment">% $$\frac{dx}{dt} = \frac{u_{i+1} - u_{i-1}}{2h}$</span>
+<span class="comment">%</span>
+<span class="comment">% $$\frac{d^2x}{dt^2} = \frac{u_{i+1} - 2u_i + u_{i-1}}{h^2}$</span>
+<span class="comment">%</span>
+<span class="comment">% where $$u_i = x(t_i)$</span>
+<span class="comment">%</span>
+<span class="comment">% Substituting these into the differential equations allows us to obtain an</span>
+<span class="comment">% equation in $$u_i , u_{i-1} , u_{i+1}$ which can be used to calculate</span>
+<span class="comment">% the value of x at each step in the interval based on the boundary</span>
+<span class="comment">% conditions.</span>
+</pre><p>The <b>finite_script()</b> function encapsulates the entire procedure</p><pre class="codeinput"><span class="keyword">function</span> finite_script()
+</pre><p>The function <b>run_finite_diff()</b> runs takes the initial parameters as arguments and implements finite differences returning the estimated x and t values</p><pre class="codeinput"><span class="keyword">function</span> [x,t] = run_finite_diff (i_h, i_A, i_B, i_C, i_t0, i_tf, i_x0, i_xf, forcing_function)
+</pre><p><b>Set Up</b> Setting up the initial values for the finite-differences method based on input arguments</p><pre class="codeinput">    h = i_h;                   <span class="comment">%Width of each sub interval</span>
+    A = i_A;                   <span class="comment">%Coefficient of x"</span>
+    B = i_B;                   <span class="comment">%Coefficient of x'</span>
+    C = i_C;                   <span class="comment">%Coefficient of x</span>
+    t0 = i_t0; tf = i_tf;      <span class="comment">%Interval on x-axis</span>
+    x0 = i_x0; xf = i_xf;      <span class="comment">%Initial values at boundaries</span>
+    func=forcing_function;     <span class="comment">%forcing function</span>
+</pre><p><b>Calculate variables</b></p><pre class="codeinput">    t = t0:h:tf;               <span class="comment">%Time vector, increasing from t0 to tf by width h</span>
+    N = round((tf-t0)/h);      <span class="comment">%Number of iterations taken to calculate estimate</span>
+</pre><p>Evaluate <i>a</i>, <i>b</i> and <i>c</i>, where:_a_ is the coefficent of <img src="finite_script_eq00196451855809077773.png" alt="$$u_{i-1}$" style="width:24px;height:9px;">, <i>b</i> is the coefficient of <img src="finite_script_eq09747440497822123510.png" alt="$$u_i$" style="width:11px;height:9px;">, <i>c</i> is the coefficient of <img src="finite_script_eq15586233719725772481.png" alt="$$u_{i+1}$" style="width:24px;height:10px;"></p><p><img src="finite_script_eq04378725132007839928.png" alt="$$ a = \frac{A}{h^2} - \frac{B}{2h} $$&#xA;\indent $$ b = C - \frac{2A}{h^2} $$&#xA;\indent $$ c = \frac{A}{h^2} + \frac{B}{2h} $$" style="width:307px;height:31px;"></p><pre class="codeinput">    a = (A/(h*h))-(B/(2*h));
+    b = C-((2*A)/(h*h));
+    c = (A/(h*h))+(B/(2*h));
+</pre><p>Assemble vector <i>vec</i> which is the right hand side vector</p><pre class="codeinput">    vec = zeros(N-1,1);         <span class="comment">%Column vector with N-1 rows</span>
+    <span class="keyword">for</span> i = 1:N-1
+        vec(i) = func(i);       <span class="comment">%Vector contents initialised to func(t) value</span>
+    <span class="keyword">end</span>
+</pre><p>Set first and last values of <i>vec</i> as boundary conditions are already known</p><pre class="codeinput">    vec(1) = vec(1)-(a*x0);
+    vec(N-1) = vec(N-1)-(c*xf);
+</pre><p>Use <b>solvetridiag</b> function to obtain y-axis values</p><pre class="codeinput">    y = solvetridiag(N-1,a,b,c,vec);
+    x = [x0;y;xf];              <span class="comment">%Append boundary conditions to y-axis values</span>
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><p><b>Plot graphs</b> <b>Reaction-diffusion equation (h = 0.2)</b></p><p><img src="finite_script_eq00500490407191139574.png" alt="$$\frac{d^2 x}{dt^2} - 20 \frac{dx}{dt} = -1$" style="width:113px;height:33px;"></p><p>with boundary conditions : <img src="finite_script_eq08011405527068987431.png" alt="$$x(0) = 1, x(1) = 0$" style="width:114px;height:15px;"></p><pre class="codeinput">figure(1);
+[x,t] = run_finite_diff(0.2,1,-20,0,0,1,1,0,@(t) -1);
+plot(t,x, <span class="string">'b*'</span>);
+title(<span class="string">'Reaction-diffusion equation (h=0.2)'</span>);
+xlabel(<span class="string">'Time t (s)'</span>), ylabel(<span class="string">'Output x'</span>);
+</pre><img vspace="5" hspace="5" src="finite_script_01.png" style="width:560px;height:420px;" alt=""> <p><i>Reaction-diffusion equation (h = 0.02)</i></p><p><img src="finite_script_eq00500490407191139574.png" alt="$$\frac{d^2 x}{dt^2} - 20 \frac{dx}{dt} = -1$" style="width:113px;height:33px;"></p><p>with boundary conditions : <img src="finite_script_eq08011405527068987431.png" alt="$$x(0) = 1, x(1) = 0$" style="width:114px;height:15px;"></p><pre class="codeinput">figure(2);
+[x,t] = run_finite_diff(0.02,1,-20,0,0,1,1,0,@(t) -1);
+plot(t,x, <span class="string">'b*'</span>);
+title(<span class="string">'Reaction-diffusion equation (h=0.02)'</span>);
+xlabel(<span class="string">'Time t (s)'</span>), ylabel(<span class="string">'Output x'</span>);
+</pre><img vspace="5" hspace="5" src="finite_script_02.png" style="width:560px;height:420px;" alt=""> <p><i>Reaction-diffusion equation (h = 0.002)</i></p><p><img src="finite_script_eq00500490407191139574.png" alt="$$\frac{d^2 x}{dt^2} - 20 \frac{dx}{dt} = -1$" style="width:113px;height:33px;"></p><p>with boundary conditions : <img src="finite_script_eq08011405527068987431.png" alt="$$x(0) = 1, x(1) = 0$" style="width:114px;height:15px;"></p><pre class="codeinput">figure(3);
+[x,t] = run_finite_diff(0.002,1,-20,0,0,1,1,0,@(t) -1);
+plot(t,x, <span class="string">'b*'</span>);
+title(<span class="string">'Reaction-diffusion equation (h=0.002)'</span>);
+xlabel(<span class="string">'Time t (s)'</span>), ylabel(<span class="string">'Output x'</span>);
+</pre><img vspace="5" hspace="5" src="finite_script_03.png" style="width:560px;height:420px;" alt=""> <p><i>Arbitrary BVP (h = 0.01)</i></p><p><img src="finite_script_eq13219470089393128377.png" alt="$$\frac{d^2 x}{dt^2} - \frac{dx}{dt} - 2 = t$" style="width:111px;height:33px;"></p><p>with boundary conditions : <img src="finite_script_eq17686928164038029513.png" alt="$$x(0) = 1, x(1) = 2$" style="width:114px;height:15px;"></p><pre class="codeinput">figure(4);
+[x,t] = run_finite_diff(0.01,1,-1,-2,0,1,1,2,@(t) t);
+plot(t,x, <span class="string">'b*'</span>);
+title(<span class="string">'Arbitrary BVP (h=0.01)'</span>);
+xlabel(<span class="string">'Time t (s)'</span>), ylabel(<span class="string">'Output x'</span>);
+</pre><img vspace="5" hspace="5" src="finite_script_04.png" style="width:560px;height:420px;" alt=""> <pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% 3) Finite Differences - Ex4
+% *Introduction*
+%
+% The following code implements the Finite Difference Method of solving
+% boundary value problems (BVP) for ordinary differential equations (ODE). This method
+% differs from previous methods in that rather than knowing the initial
+% conditions for the ODE we know the value at the start and end of an
+% interval. BVP problems do not always have a solution, however for those
+% that do one method of solving them is using finite differences. 
+%
+%*Mathematics Involved*
+%
+% The finite differences method splits the interval into steps and uses
+% these steps to obtain estimates for the first and second derivative which
+% are: 
+% 
+% $$\frac{dx}{dt} = \frac{u_{i+1} - u_{i-1}}{2h}$ 
+%  
+% $$\frac{d^2x}{dt^2} = \frac{u_{i+1} - 2u_i + u_{i-1}}{h^2}$ 
+%
+% where $$u_i = x(t_i)$
+% 
+% Substituting these into the differential equations allows us to obtain an
+% equation in $$u_i , u_{i-1} , u_{i+1}$ which can be used to calculate
+% the value of x at each step in the interval based on the boundary
+% conditions. 
+%%
+% The *finite_script()* function encapsulates the entire procedure 
+function finite_script()
+%% 
+% The function *run_finite_diff()* runs takes the initial parameters as
+% arguments and implements finite differences returning the estimated x and
+% t values
+function [x,t] = run_finite_diff (i_h, i_A, i_B, i_C, i_t0, i_tf, i_x0, i_xf, forcing_function)
+    %% 
+    % *Set Up*
+    % Setting up the initial values for the finite-differences method based
+    % on input arguments
+   
+    h = i_h;                   %Width of each sub interval
+    A = i_A;                   %Coefficient of x"
+    B = i_B;                   %Coefficient of x'
+    C = i_C;                   %Coefficient of x
+    t0 = i_t0; tf = i_tf;      %Interval on x-axis
+    x0 = i_x0; xf = i_xf;      %Initial values at boundaries 
+    func=forcing_function;     %forcing function
+    %%
+    % *Calculate variables*
+ 
+    t = t0:h:tf;               %Time vector, increasing from t0 to tf by width h 
+    N = round((tf-t0)/h);      %Number of iterations taken to calculate estimate 
+    %% 
+    % Evaluate _a_, _b_ and _c_, where:_a_ is the coefficent of $$u_{i-1}$,
+    % _b_ is the coefficient of $$u_i$, _c_ is the coefficient of $$u_{i+1}$
+    %
+    % $$ a = \frac{A}{h^2} - \frac{B}{2h} $$
+    % \indent $$ b = C - \frac{2A}{h^2} $$
+    % \indent $$ c = \frac{A}{h^2} + \frac{B}{2h} $$
+
+    a = (A/(h*h))-(B/(2*h));
+    b = C-((2*A)/(h*h));
+    c = (A/(h*h))+(B/(2*h));
+    %% 
+    % Assemble vector _vec_ which is the right hand side vector
+
+    vec = zeros(N-1,1);         %Column vector with N-1 rows 
+    for i = 1:N-1
+        vec(i) = func(i);       %Vector contents initialised to func(t) value
+    end
+
+    %% 
+    % Set first and last values of _vec_ as boundary conditions are already
+    % known
+
+    vec(1) = vec(1)-(a*x0);    
+    vec(N-1) = vec(N-1)-(c*xf);
+    %%
+    % Use *solvetridiag* function to obtain y-axis values
+    y = solvetridiag(N-1,a,b,c,vec);
+    x = [x0;y;xf];              %Append boundary conditions to y-axis values
+end
+%% 
+% *Plot graphs*
+% *Reaction-diffusion equation (h = 0.2)*
+%
+% $$\frac{d^2 x}{dt^2} - 20 \frac{dx}{dt} = -1$
+%
+% with boundary conditions : $$x(0) = 1, x(1) = 0$
+figure(1);
+[x,t] = run_finite_diff(0.2,1,-20,0,0,1,1,0,@(t) -1);
+plot(t,x, 'b*');
+title('Reaction-diffusion equation (h=0.2)');
+xlabel('Time t (s)'), ylabel('Output x');
+%%
+% _Reaction-diffusion equation (h = 0.02)_
+%
+% $$\frac{d^2 x}{dt^2} - 20 \frac{dx}{dt} = -1$
+%
+% with boundary conditions : $$x(0) = 1, x(1) = 0$
+figure(2);
+[x,t] = run_finite_diff(0.02,1,-20,0,0,1,1,0,@(t) -1);
+plot(t,x, 'b*');
+title('Reaction-diffusion equation (h=0.02)');
+xlabel('Time t (s)'), ylabel('Output x');
+%%
+% _Reaction-diffusion equation (h = 0.002)_
+%
+% $$\frac{d^2 x}{dt^2} - 20 \frac{dx}{dt} = -1$
+%
+% with boundary conditions : $$x(0) = 1, x(1) = 0$
+figure(3);
+[x,t] = run_finite_diff(0.002,1,-20,0,0,1,1,0,@(t) -1);
+plot(t,x, 'b*');
+title('Reaction-diffusion equation (h=0.002)');
+xlabel('Time t (s)'), ylabel('Output x');
+%%
+% _Arbitrary BVP (h = 0.01)_
+%
+% $$\frac{d^2 x}{dt^2} - \frac{dx}{dt} - 2 = t$
+%
+% with boundary conditions : $$x(0) = 1, x(1) = 2$
+figure(4);
+[x,t] = run_finite_diff(0.01,1,-1,-2,0,1,1,2,@(t) t);
+plot(t,x, 'b*');
+title('Arbitrary BVP (h=0.01)');
+xlabel('Time t (s)'), ylabel('Output x');
+%%
+end
+##### SOURCE END #####
+--></body></html>

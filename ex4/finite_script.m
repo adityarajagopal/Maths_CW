@@ -1,10 +1,14 @@
 %% 3) Finite Differences - Ex4
+% *Introduction*
+%
 % The following code implements the Finite Difference Method of solving
 % boundary value problems (BVP) for ordinary differential equations (ODE). This method
 % differs from previous methods in that rather than knowing the initial
 % conditions for the ODE we know the value at the start and end of an
 % interval. BVP problems do not always have a solution, however for those
 % that do one method of solving them is using finite differences. 
+%
+%*Mathematics Involved*
 %
 % The finite differences method splits the interval into steps and uses
 % these steps to obtain estimates for the first and second derivative which
@@ -28,7 +32,8 @@ function finite_script()
 % arguments and implements finite differences returning the estimated x and
 % t values
 function [x,t] = run_finite_diff (i_h, i_A, i_B, i_C, i_t0, i_tf, i_x0, i_xf, forcing_function)
-    %% Set Up
+    %% 
+    % *Set Up*
     % Setting up the initial values for the finite-differences method based
     % on input arguments
    
@@ -39,7 +44,8 @@ function [x,t] = run_finite_diff (i_h, i_A, i_B, i_C, i_t0, i_tf, i_x0, i_xf, fo
     t0 = i_t0; tf = i_tf;      %Interval on x-axis
     x0 = i_x0; xf = i_xf;      %Initial values at boundaries 
     func=forcing_function;     %forcing function
-    %% Calculate variables
+    %%
+    % *Calculate variables*
  
     t = t0:h:tf;               %Time vector, increasing from t0 to tf by width h 
     N = round((tf-t0)/h);      %Number of iterations taken to calculate estimate 
@@ -73,7 +79,8 @@ function [x,t] = run_finite_diff (i_h, i_A, i_B, i_C, i_t0, i_tf, i_x0, i_xf, fo
     y = solvetridiag(N-1,a,b,c,vec);
     x = [x0;y;xf];              %Append boundary conditions to y-axis values
 end
-%% Plot graphs
+%% 
+% *Plot graphs*
 % *Reaction-diffusion equation (h = 0.2)*
 %
 % $$\frac{d^2 x}{dt^2} - 20 \frac{dx}{dt} = -1$
