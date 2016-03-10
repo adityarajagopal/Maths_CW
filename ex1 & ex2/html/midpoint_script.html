@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>1) RC circuit - Excercise 1</title><meta name="generator" content="MATLAB 8.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-03-10"><meta name="DC.source" content="midpoint_script.m"><style type="text/css">
+      --><title>1) RC circuit - Excercise 1</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-03-10"><meta name="DC.source" content="midpoint_script.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>1) RC circuit - Excercise 1</h1><p><b>Introduction:</b></p><p>The following script tests the midpoint method implemented in midpoint.m by simulating an RC circuit for several inputs.</p><p><b>Mathematics involved:</b></p><p>The following equations characterize the system:</p><p><b>Code</b></p><p>First we set initial conditions</p><pre class="codeinput">R = 1000;
+  </style></head><body><div class="content"><h1>1) RC circuit - Excercise 1</h1><p><b>Introduction:</b></p><p>The following script tests the midpoint method implemented in midpoint.m by simulating an RC circuit for several inputs.</p><p><b>Mathematics involved:</b></p><p>The following equations characterize the system:</p><p><img src="midpoint_script_eq02597057788028691627.png" alt="$$ V_in(t)=\frac{1}{C}q_{c}(t) + R \dot{q}_{C}(t) $$" style="width:161px;height:31px;"></p><p><img src="midpoint_script_eq12878769852255298546.png" alt="$$ V_out(t)=\frac{1}{C}\dot{q}_{C}(t) $$" style="width:109px;height:31px;"></p><p>This means that to simulate the sistem we will need to solve for q', which means solving a first order ODE, precisely what the midpoint method can do numerically.</p><p><b>Code</b></p><p>First we set initial conditions</p><pre class="codeinput">R = 1000;
 C = 100e-9;
 qc0 = 500e-9;
 tf = 0.003;
@@ -80,7 +80,7 @@ title(<span class="string">'Graph of Vout against time for Step Signal input'</s
 xlabel(<span class="string">'Time(s)'</span>);
 ylabel(<span class="string">'Vout(V)'</span>);
 legend(<span class="string">'Amplitude Vin = 2.5'</span>)
-</pre><img vspace="5" hspace="5" src="midpoint_script_01.png" alt=""> <p>With the given initial conditions qc0 = 500e-9 the voltage at t=0 is V=1/C * qc(0) = 5 V. In the graph this can be observed to be the initial value. Since the input is a step signal of amplitude 2.5V we expect the steadystate output to eventually be 2.5V, as the graph shows it does. However this does not happen because volatage cannot change instantaneously accros a capacitor, as this would make q' be infinity. Since this is the unit step response, we can expect this transient behaviour to appear in the next graphs whose initial value is not 5V, since is equivalent to multiplying the input signal by a an unit step signal.</p><p><b>DECAY SIGNAL</b></p><pre class="codeinput">h  = 0.000001;
+</pre><img vspace="5" hspace="5" src="midpoint_script_01.png" style="width:560px;height:420px;" alt=""> <p>With the given initial conditions qc0 = 500e-9 the voltage at t=0 is V=1/C * qc(0) = 5 V. In the graph this can be observed to be the initial value. Since the input is a step signal of amplitude 2.5V we expect the steadystate output to eventually be 2.5V, as the graph shows it does. However this does not happen because volatage cannot change instantaneously accros a capacitor, as this would make q' be infinity. Since this is the unit step response, we can expect this transient behaviour to appear in the next graphs whose initial value is not 5V, since is equivalent to multiplying the input signal by a an unit step signal.</p><p><b>DECAY SIGNAL</b></p><pre class="codeinput">h  = 0.000001;
 Vin = @(t) 2.5*exp(-t/(100e-6));
 [Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
 figure(2);
@@ -95,7 +95,7 @@ title(<span class="string">'Graph of Vout against time for Decay Signal input'</
 xlabel(<span class="string">'Time(s)'</span>);
 ylabel(<span class="string">'Vout(V)'</span>);
 legend(<span class="string">'Amplitude tau = 100e-6'</span>,<span class="string">'Amplitude tau = 100(e-6)^2'</span>);
-</pre><img vspace="5" hspace="5" src="midpoint_script_02.png" alt=""> <p>In this graph</p><p><b>SINE SIGNAL</b></p><pre class="codeinput">Vin = @(t) 5*sin((2*pi/(10e-6))*t);
+</pre><img vspace="5" hspace="5" src="midpoint_script_02.png" style="width:560px;height:420px;" alt=""> <p>In this graph</p><p><b>SINE SIGNAL</b></p><pre class="codeinput">Vin = @(t) 5*sin((2*pi/(10e-6))*t);
 [Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
 figure(4)
 hold <span class="string">on</span>
@@ -118,7 +118,7 @@ title(<span class="string">'Graph of Vout against time of Sine Signal inputs'</s
 xlabel(<span class="string">'Time(s)'</span>);
 ylabel(<span class="string">'Vout(V)'</span>);
 legend(<span class="string">'T=10e-6'</span>,<span class="string">'T=100e-6'</span>, <span class="string">'T=500e-6'</span>,<span class="string">'T=1000e-6'</span>);
-</pre><img vspace="5" hspace="5" src="midpoint_script_03.png" alt=""> <p>Analysing the circuit with phasors the transfer function is:</p><p>$$ Vout = Vin * \frac{\frac{1}{jwC}}{\frac{1}{jwC}+R} = \frac{1}{jwRC+1}</p><p>Since this tends to 0 as w tends to infinity and tends to 1 when w tends to zero, we can infer it is a low-pass filter. The graph shows how evey sine wave</p><p><b>SQUARE SIGNAL</b></p><pre class="codeinput">Vin = @(t) 5*square((2*pi/(10e-6))*t);
+</pre><img vspace="5" hspace="5" src="midpoint_script_03.png" style="width:560px;height:420px;" alt=""> <p>Analysing the circuit with phasors the transfer function is:</p><p><img src="midpoint_script_eq07944000985065257097.png" alt="$$ Vout = Vin * \frac{\frac{1}{jwC}}{\frac{1}{jwC}+R} =&#xA; V_in * \frac{1}{jwRC+1}$$" style="width:271px;height:44px;"></p><p>Since this tends to 0 as w tends to infinity and tends to 1 when w tends to zero, we can infer it is a low-pass filter. The graph shows how as the frequency of the sine waves increases the amplitude decreases. We can also observe close to t=0 the transient response, from the immediate change in voltage, since sine at t=0 is 0, but the initial conditions have Vout=5.</p><p><b>SQUARE SIGNAL</b></p><pre class="codeinput">Vin = @(t) 5*square((2*pi/(10e-6))*t);
 [Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
 figure(3)
 hold <span class="string">on</span>
@@ -141,7 +141,7 @@ title(<span class="string">'Graph of Vout against time for Square Signal inputs'
 xlabel(<span class="string">'Time(s)'</span>);
 ylabel(<span class="string">'Vout(V)'</span>);
 legend(<span class="string">'T=10e-6'</span>,<span class="string">'T=100e-6'</span>, <span class="string">'T=500e-6'</span>,<span class="string">'T=1000e-6'</span>);
-</pre><img vspace="5" hspace="5" src="midpoint_script_04.png" alt=""> <p>insert comments about the square signal graph here</p><p>I really don't know anything about this</p><p><b>SAWTOOTH SIGNAL</b></p><pre class="codeinput">Vin = @(t) 5*sawtooth((2*pi/(10e-6))*t);
+</pre><img vspace="5" hspace="5" src="midpoint_script_04.png" style="width:560px;height:420px;" alt=""> <p>The systems response to the square signals can be observed form two perspectives. From a transient point of view the graph can be analyzed as the sum of responses from a step inpulse response with different initial conditions and sign. However it can also be explained from a frequency point of view. The frequency spectrum of a square wave contains infinite frequencies above the square wave's frequency but it decays as frequency increases. By linearity each of this frequencies components will be affected as if you would input them individually and added the output. This explains how the lower frequency square waves are less attenuated.</p><p><b>SAWTOOTH SIGNAL</b></p><pre class="codeinput">Vin = @(t) 5*sawtooth((2*pi/(10e-6))*t);
 [Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C);
 figure(5);
 hold <span class="string">on</span>;
@@ -164,8 +164,7 @@ title(<span class="string">'Graph of Vout against time of Sawtooth Signal'</span
 xlabel(<span class="string">'Time(s)'</span>);
 ylabel(<span class="string">'Vout(V)'</span>);
 legend(<span class="string">'T=10e-6'</span>,<span class="string">'T=100e-6'</span>, <span class="string">'T=500e-6'</span>,<span class="string">'T=1000e-6'</span>);
-</pre><img vspace="5" hspace="5" src="midpoint_script_05.png" alt=""> <p>insert comments about the sawtooth signal graph here</p><p>I really don't know anything about this</p><pre class="codeinput"><span class="comment">%end</span>
-</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015a</a><br></p></div><!--
+</pre><img vspace="5" hspace="5" src="midpoint_script_05.png" style="width:560px;height:420px;" alt=""> <p>The output to the sawtooth inputs can be analyzed in a similar fashion to that of the square wave. There is an expected transient for every instant change in the input. Since is frequency spectrum also has components above the frequency of the signal, the attenuation is again inversely propotional to the frequency</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% 1) RC circuit - Excercise 1
 %
@@ -179,6 +178,15 @@ legend(<span class="string">'T=10e-6'</span>,<span class="string">'T=100e-6'</sp
 %
 % The following equations characterize the system:
 % 
+% $$ V_in(t)=\frac{1}{C}q_{c}(t) + R \dot{q}_{C}(t) $$ 
+%
+% $$ V_out(t)=\frac{1}{C}\dot{q}_{C}(t) $$ 
+%
+% This means that to simulate the sistem we will need to solve for q',
+% which means solving a first order ODE, precisely what the midpoint
+% method can do numerically. 
+% 
+%
 % *Code*
 %
 % First we set initial conditions
@@ -261,11 +269,15 @@ legend('T=10e-6','T=100e-6', 'T=500e-6','T=1000e-6');
 %%
 % Analysing the circuit with phasors the transfer function is:
 %
-% $$ Vout = Vin * \frac{\frac{1}{jwC}}{\frac{1}{jwC}+R} = \frac{1}{jwRC+1}
+% $$ Vout = Vin * \frac{\frac{1}{jwC}}{\frac{1}{jwC}+R} =
+%  V_in * \frac{1}{jwRC+1}$$
 %
 % Since this tends to 0 as w tends to infinity and tends to 1 when w tends
-% to zero, we can infer it is a low-pass filter. The graph shows how evey
-% sine wave 
+% to zero, we can infer it is a low-pass filter. The graph shows how as the
+% frequency of the sine waves increases the amplitude decreases. We can
+% also observe close to t=0 the transient response, from the immediate
+% change in voltage, since sine at t=0 is 0, but the initial conditions
+% have Vout=5.
 
 
 %%
@@ -295,9 +307,15 @@ ylabel('Vout(V)');
 legend('T=10e-6','T=100e-6', 'T=500e-6','T=1000e-6');
 
 %%
-% insert comments about the square signal graph here
-%
-% I really don't know anything about this
+% The systems response to the square signals can be observed form two
+% perspectives. From a transient point of view the graph can be analyzed as
+% the sum of responses from a step inpulse response with different initial
+% conditions and sign. However it can also be explained from a frequency
+% point of view. The frequency spectrum of a square wave contains infinite
+% frequencies above the square wave's frequency but it decays as frequency 
+% increases. By linearity each of this frequencies components will be
+% affected as if you would input them individually and added the output.
+% This explains how the lower frequency square waves are less attenuated.
 
 
 %%
@@ -326,11 +344,10 @@ xlabel('Time(s)');
 ylabel('Vout(V)'); 
 legend('T=10e-6','T=100e-6', 'T=500e-6','T=1000e-6');
 %%
-% insert comments about the sawtooth signal graph here
-%
-% I really don't know anything about this
-
-
-%end
+% The output to the sawtooth inputs can be analyzed in a similar fashion to
+% that of the square wave. There is an expected transient for every
+% instant change in the input. Since is frequency spectrum also has 
+% components above the frequency of the signal, the attenuation is
+% again inversely propotional to the frequency
 ##### SOURCE END #####
 --></body></html>

@@ -10,6 +10,15 @@
 %
 % The following equations characterize the system:
 % 
+% $$ V_in(t)=\frac{1}{C}q_{c}(t) + R \dot{q}_{C}(t) $$ 
+%
+% $$ V_out(t)=\frac{1}{C}\dot{q}_{C}(t) $$ 
+%
+% This means that to simulate the sistem we will need to solve for q',
+% which means solving a first order ODE, precisely what the midpoint
+% method can do numerically. 
+% 
+%
 % *Code*
 %
 % First we set initial conditions
@@ -92,11 +101,15 @@ legend('T=10e-6','T=100e-6', 'T=500e-6','T=1000e-6');
 %%
 % Analysing the circuit with phasors the transfer function is:
 %
-% $$ Vout = Vin * \frac{\frac{1}{jwC}}{\frac{1}{jwC}+R} = \frac{1}{jwRC+1}
+% $$ Vout = Vin * \frac{\frac{1}{jwC}}{\frac{1}{jwC}+R} =
+%  V_in * \frac{1}{jwRC+1}$$
 %
 % Since this tends to 0 as w tends to infinity and tends to 1 when w tends
-% to zero, we can infer it is a low-pass filter. The graph shows how evey
-% sine wave 
+% to zero, we can infer it is a low-pass filter. The graph shows how as the
+% frequency of the sine waves increases the amplitude decreases. We can
+% also observe close to t=0 the transient response, from the immediate
+% change in voltage, since sine at t=0 is 0, but the initial conditions
+% have Vout=5.
 
 
 %%
@@ -126,9 +139,15 @@ ylabel('Vout(V)');
 legend('T=10e-6','T=100e-6', 'T=500e-6','T=1000e-6');
 
 %%
-% insert comments about the square signal graph here
-%
-% I really don't know anything about this
+% The systems response to the square signals can be observed form two
+% perspectives. From a transient point of view the graph can be analyzed as
+% the sum of responses from a step inpulse response with different initial
+% conditions and sign. However it can also be explained from a frequency
+% point of view. The frequency spectrum of a square wave contains infinite
+% frequencies above the square wave's frequency but it decays as frequency 
+% increases. By linearity each of this frequencies components will be
+% affected as if you would input them individually and added the output.
+% This explains how the lower frequency square waves are less attenuated.
 
 
 %%
@@ -157,9 +176,8 @@ xlabel('Time(s)');
 ylabel('Vout(V)'); 
 legend('T=10e-6','T=100e-6', 'T=500e-6','T=1000e-6');
 %%
-% insert comments about the sawtooth signal graph here
-%
-% I really don't know anything about this
-
-
-%end
+% The output to the sawtooth inputs can be analyzed in a similar fashion to
+% that of the square wave. There is an expected transient for every
+% instant change in the input. Since is frequency spectrum also has 
+% components above the frequency of the signal, the attenuation is
+% again inversely propotional to the frequency

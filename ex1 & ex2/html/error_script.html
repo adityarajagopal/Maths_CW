@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>1) RC circuit - Excercise 2</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-03-09"><meta name="DC.source" content="error_script.m"><style type="text/css">
+      --><title>1) RC circuit - Excercise 2</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-03-10"><meta name="DC.source" content="error_script.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -122,33 +122,29 @@ title(<span class="string">'Supperposed approaches of solution'</span>);
 xlabel(<span class="string">'Time(s)'</span>);
 ylabel(<span class="string">'Vout(V)'</span>);
 legend(<span class="string">'h=12.5us'</span>,<span class="string">'h=6.25us'</span>,<span class="string">'h=3.13us'</span>,<span class="string">'h=1.56us'</span>,<span class="string">'h=0.78us'</span>,<span class="string">'exact solution'</span>);
-</pre><img vspace="5" hspace="5" src="error_script_02.png" style="width:560px;height:420px;" alt=""> <pre class="codeinput"><span class="comment">%The graph clearly shows how decreasing the value of h improves the</span>
-<span class="comment">%solution</span>
-
-figure(3);
+</pre><img vspace="5" hspace="5" src="error_script_02.png" style="width:560px;height:420px;" alt=""> <p>The graph clearly shows how decreasing the value of h improves the solution</p><pre class="codeinput">figure(3);
 plot(log(h), log(error), <span class="string">'b*'</span>);
 title(<span class="string">'Error Analysis for given Cosine (log-log graph)'</span>)
 xlabel(<span class="string">'h value(s)'</span>);
 ylabel(<span class="string">'error(V)'</span>)
-
-<span class="keyword">function</span> [Texact,Vexact] = exactcosine(qc0,h,tf,Vin,R,C,T)
-</pre><pre class="codeinput">    t = 0;
-    Nsteps = round((tf-t)/h); <span class="comment">%% number of steps to take</span>
+</pre><img vspace="5" hspace="5" src="error_script_03.png" style="width:560px;height:420px;" alt=""> <p>The linear relationship with a gradient of one in a log-log plot indicates that the error is proportional to h.</p><pre class="codeinput"><span class="keyword">function</span> [Texact,Vexact] = exactcosine(qc0,h,tf,Vin,R,C,T)
+    t = 0;
+    Nsteps = round((tf-t)/h); <span class="comment">% number of steps to take</span>
     Texact = t:h:tf;
     Vexact(1:Nsteps) = 0;
 
-    <span class="comment">%%store intial condition</span>
+    <span class="comment">%store intial condition</span>
     Vexact(1) = qc0/C;
 
     w = 2*pi/T;
     k = qc0 - (Vin*C)/(1+(w*R*C)^2);
-</pre><pre class="codeinput">    <span class="keyword">for</span> i =1:Nsteps
+    <span class="keyword">for</span> i =1:Nsteps
         qc = (Vin*C)/(1+(w*R*C)^2)*cos(w*t) + (w*Vin*R*C^2)/(1+(w*R*C)^2)*sin(w*t) + k*exp(-t/(R*C)) ;
         t = t+h;
         Vexact(i+1) = qc/C;
     <span class="keyword">end</span>
+<span class="keyword">end</span>
 </pre><pre class="codeinput"><span class="keyword">end</span>
-</pre><img vspace="5" hspace="5" src="error_script_03.png" style="width:560px;height:420px;" alt=""> <pre class="codeinput"><span class="keyword">end</span>
 </pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% 1) RC circuit - Excercise 2
@@ -240,27 +236,29 @@ xlabel('Time(s)');
 ylabel('Vout(V)');
 legend('h=12.5us','h=6.25us','h=3.13us','h=1.56us','h=0.78us','exact solution');
 %%
-%The graph clearly shows how decreasing the value of h improves the
-%solution
+% The graph clearly shows how decreasing the value of h improves the
+% solution
 
 figure(3);
 plot(log(h), log(error), 'b*');
 title('Error Analysis for given Cosine (log-log graph)') 
 xlabel('h value(s)');
 ylabel('error(V)')
+%%
+% The linear relationship with a gradient of one in a log-log plot
+% indicates that the error is proportional to h.
 
 function [Texact,Vexact] = exactcosine(qc0,h,tf,Vin,R,C,T)
     t = 0;
-    Nsteps = round((tf-t)/h); %% number of steps to take
+    Nsteps = round((tf-t)/h); % number of steps to take
     Texact = t:h:tf;
     Vexact(1:Nsteps) = 0;
 
-    %%store intial condition 
+    %store intial condition 
     Vexact(1) = qc0/C;
 
     w = 2*pi/T;
     k = qc0 - (Vin*C)/(1+(w*R*C)^2);
-    %%
     for i =1:Nsteps
         qc = (Vin*C)/(1+(w*R*C)^2)*cos(w*t) + (w*Vin*R*C^2)/(1+(w*R*C)^2)*sin(w*t) + k*exp(-t/(R*C)) ; 
         t = t+h; 

@@ -1,0 +1,133 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>midpoint</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-03-10"><meta name="DC.source" content="midpoint.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><p><b>MIDPOINT METHOD</b></p><pre class="codeinput"><span class="keyword">function</span> [Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C)
+</pre><pre class="codeinput">t = 0;
+Nsteps = round((tf-t)/h); <span class="comment">% number of steps to take</span>
+Tout = t:h:tf;
+q = zeros(1,Nsteps+1);
+</pre><pre class="codeoutput error">Not enough input arguments.
+
+Error in midpoint (line 6)
+Nsteps = round((tf-t)/h); % number of steps to take
+</pre><p>We first have to write the given equation for V_in in terms of q':</p><p><img src="midpoint_eq02597057788028691627.png" alt="$$ V_in(t)=\frac{1}{C}q_{c}(t) + R \dot{q}_{C}(t) $$" style="width:161px;height:31px;"></p><p>is equivalent to</p><p><img src="midpoint_eq16483927520475949197.png" alt="$$ \dot{q}_{C}(t) = \frac{1}{R}(V_in(t) - \frac{1}{C}q_c(t)) $$" style="width:176px;height:31px;"></p><pre class="codeinput">f = @(t,q) (1/R)*(Vin(t) - (q/C));
+
+<span class="comment">% store intial condition</span>
+q(1) = qc0;
+</pre><p>To implement the midpoint method we must find the coefficients <img src="midpoint_eq04247843732498266564.png" alt="$$k_1$" style="width:11px;height:13px;"> and <img src="midpoint_eq04037689167812224278.png" alt="$$k_2$" style="width:12px;height:13px;"> of the increment function <img src="midpoint_eq06141951177758897748.png" alt="$$ \phi=a_1*k_1+a_2*k_2 $$" style="width:127px;height:14px;">, having the midpoint method <img src="midpoint_eq17410194964073082478.png" alt="$$a_1=0$" style="width:40px;height:13px;"> and <img src="midpoint_eq02231731942540344636.png" alt="$$a_2=1$" style="width:39px;height:13px;">. We still have to compute <img src="midpoint_eq04247843732498266564.png" alt="$$k_1$" style="width:11px;height:13px;"> since <img src="midpoint_eq04037689167812224278.png" alt="$$k_2$" style="width:12px;height:13px;"> is defined in terms of <img src="midpoint_eq04247843732498266564.png" alt="$$k_1$" style="width:11px;height:13px;">. Then the value of the next iteration will be <img src="midpoint_eq14249684058164207232.png" alt="$$y_{i+1}=y_i+\phi=y_i+k_2$" style="width:143px;height:14px;">$</p><pre class="codeinput"><span class="keyword">for</span> i = 1:Nsteps
+    k1 = h*f(Tout(i),q(i));
+    k2 = h*f(Tout(i)+0.5*h,q(i)+0.5*k1);
+    q(i+1) = q(i) + k2;
+<span class="keyword">end</span>
+
+Vout = q./C;
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%%
+% *MIDPOINT METHOD*
+
+function [Tout,Vout] = midpoint(qc0,h,tf,Vin,R,C) 
+t = 0;
+Nsteps = round((tf-t)/h); % number of steps to take
+Tout = t:h:tf;
+q = zeros(1,Nsteps+1);
+
+%%
+% We first have to write the given equation for V_in in terms of q':
+%
+% $$ V_in(t)=\frac{1}{C}q_{c}(t) + R \dot{q}_{C}(t) $$ 
+%
+% is equivalent to
+%
+% $$ \dot{q}_{C}(t) = \frac{1}{R}(V_in(t) - \frac{1}{C}q_c(t)) $$
+
+f = @(t,q) (1/R)*(Vin(t) - (q/C));
+
+% store intial condition 
+q(1) = qc0;
+
+%%
+% To implement the midpoint method we must find the coefficients $$k_1$ and $$k_2$
+% of the increment function $$ \phi=a_1*k_1+a_2*k_2 $$, having the midpoint
+% method $$a_1=0$ and $$a_2=1$. We still have to compute $$k_1$ since
+% $$k_2$ is defined in terms of $$k_1$. Then the value of the next
+% iteration will be $$y_{i+1}=y_i+\phi=y_i+k_2$$
+%%
+for i = 1:Nsteps
+    k1 = h*f(Tout(i),q(i));                 
+    k2 = h*f(Tout(i)+0.5*h,q(i)+0.5*k1);    
+    q(i+1) = q(i) + k2;   
+end
+
+Vout = q./C;
+
+end
+
+##### SOURCE END #####
+--></body></html>
