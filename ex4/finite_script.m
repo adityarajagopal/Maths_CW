@@ -64,10 +64,10 @@ function [x,t] = run_finite_diff (i_h, i_A, i_B, i_C, i_t0, i_tf, i_x0, i_xf, fo
     % Assemble vector _vec_ which is the right hand side vector
 
     vec = zeros(N-1,1);         %Column vector with N-1 rows 
-    for i = 1:N-1
-        vec(i) = func(i);       %Vector contents initialised to func(t) value
-    end
 
+    for i = 1:N-1
+        vec(i) = func(t0+(i-1)*h);       %Vector contents initialised to func(t) value
+    end
     %% 
     % Set first and last values of _vec_ as boundary conditions are already
     % known
