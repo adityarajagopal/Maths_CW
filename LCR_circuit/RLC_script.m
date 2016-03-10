@@ -74,8 +74,12 @@ xlabel('Time(s)');
 ylabel('Vout(V)');
 legend('Amplitude Vin = 5V')
 %%
-% DESCRIBE GRAPH
-
+% The input is a step function with amplitude 5V. Initially, the Vout is 0V
+% as there is no current through the circuit. As the voltage across the
+% capacitor cannot change instantaneously, the increase in the voltage is
+% gradual initially. As t tends to infinity, the input is a steady 5V,
+% hence Vout dies down while oscillating about 0V. The peak voltage it
+% reaches is about 2V. 
 %%
 % *Decay signal input*
 v_in = @(t) 5*heaviside(t)*exp(-t^2/(3e-6));
@@ -89,8 +93,10 @@ xlabel('Time(s)');
 ylabel('Vout(V)');
 legend('Amplitude tau = 3(ms)^2');
 %%
-% DESCRIBE GRAPH
-
+% The input here is a deccaying exponential, hence also has a transient at
+% t=0. The output follows a similar shape to before but doesn't reach as
+% high a peak voltage as the exponential input decreases with time as
+% opposed to staying constant as in the previous example.
 %%
 % *Square signal inputs*
 f=109;

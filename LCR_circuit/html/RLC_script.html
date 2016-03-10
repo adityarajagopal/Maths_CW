@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>2) RLC circuit - Excercise 3</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-03-09"><meta name="DC.source" content="RLC_script.m"><style type="text/css">
+      --><title>2) RLC circuit - Excercise 3</title><meta name="generator" content="MATLAB 8.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-03-10"><meta name="DC.source" content="RLC_script.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>2) RLC circuit - Excercise 3</h1><p><b>Introduction:</b></p><p>The following script tests the 4th order classic Runge-Kutta for an RLC circuit, which is a second order ODE. To simulate the system we use the rukasecond.m function, which calculates the next iteration of the numeric ODE solution. This function is called in the auxilary N_step_rk(), which repeats and saves the output for N number of steps</p><p><b>Mathematics involved:</b></p><p>The system is characterized by the following equations:</p><p><img src="RLC_script_eq02152105420273933488.png" alt="$$ L \frac{d^2}{dt^2}q_{C}(t) + R\frac{d}{dt}q_{C}(t) + \frac{1}{C} q_{C}(t)  $$" style="width:205px;height:33px;"></p><p><img src="RLC_script_eq05992845370014621076.png" alt="$$ Vout = \frac{d}{dt}q_{C}(t) $$" style="width:99px;height:31px;"></p><p>We first need to rewrite the first equation as two simultaneous first order equations to be solved by our Runge-Kutta algorithm. Since we are dealing with variances in charge (the derivative of q in terms of t) this can convinently be represented as the current i.</p><p><img src="RLC_script_eq05520597013360422267.png" alt="$$ i'=\frac{1}{L}(Vin-Ri-\frac{1}{c}q) $$" style="width:147px;height:31px;"></p><p><img src="RLC_script_eq17813153375704852681.png" alt="$$ q' = i $$" style="width:35px;height:15px;"></p><p>Finally we can also rewrite our voltage output in terms of the current, which leads to the more recognizable equation</p><p><img src="RLC_script_eq04978855249008671060.png" alt="$$ Vout = R * i $$" style="width:81px;height:11px;"></p><pre class="codeinput"><span class="keyword">function</span> RLC_script()
+  </style></head><body><div class="content"><h1>2) RLC circuit - Excercise 3</h1><p><b>Introduction:</b></p><p>The following script tests the 4th order classic Runge-Kutta for an RLC circuit, which is a second order ODE. To simulate the system we use the rukasecond.m function, which calculates the next iteration of the numeric ODE solution. This function is called in the auxilary N_step_rk(), which repeats and saves the output for N number of steps</p><p><b>Mathematics involved:</b></p><p>The system is characterized by the following equations:</p><p><img src="RLC_script_eq02152105420273933488.png" alt="$$ L \frac{d^2}{dt^2}q_{C}(t) + R\frac{d}{dt}q_{C}(t) + \frac{1}{C} q_{C}(t)  $$"></p><p><img src="RLC_script_eq05992845370014621076.png" alt="$$ Vout = \frac{d}{dt}q_{C}(t) $$"></p><p>We first need to rewrite the first equation as two simultaneous first order equations to be solved by our Runge-Kutta algorithm. Since we are dealing with variances in charge (the derivative of q in terms of t) this can convinently be represented as the current i.</p><p><img src="RLC_script_eq05520597013360422267.png" alt="$$ i'=\frac{1}{L}(Vin-Ri-\frac{1}{c}q) $$"></p><p><img src="RLC_script_eq17813153375704852681.png" alt="$$ q' = i $$"></p><p>Finally we can also rewrite our voltage output in terms of the current, which leads to the more recognizable equation</p><p><img src="RLC_script_eq04978855249008671060.png" alt="$$ Vout = R * i $$"></p><pre class="codeinput"><span class="keyword">function</span> RLC_script()
 </pre><p>Local function to produce Vout for the current set Vin and conditions for N steps.</p><p><i>Note: since we have set the whole script to be a function we can use local functions that hae access to the variables within the script. This means it will be evaluated with the value Vin, R, C etc have when the function is called</i></p><pre class="codeinput"><span class="keyword">function</span> [Tout,Vout] = N_step_rk()
 func=@(q, i, t) (1/L)*(v_in(t)-(R*i)-(q/C));
 t=(0:h:h*(N-1));
@@ -95,7 +95,7 @@ title(<span class="string">'Graph of Vout against time for a Step Signal'</span>
 xlabel(<span class="string">'Time(s)'</span>);
 ylabel(<span class="string">'Vout(V)'</span>);
 legend(<span class="string">'Amplitude Vin = 5V'</span>)
-</pre><img vspace="5" hspace="5" src="RLC_script_01.png" style="width:560px;height:420px;" alt=""> <p>DESCRIBE GRAPH</p><p><b>Decay signal input</b></p><pre class="codeinput">v_in = @(t) 5*heaviside(t)*exp(-t^2/(3e-6));
+</pre><img vspace="5" hspace="5" src="RLC_script_01.png" alt=""> <p>The input is a step function with amplitude 5V. Initially, the Vout is 0V as there is no current through the circuit. As the voltage across the capacitor cannot change instantaneously, the increase in the voltage is gradual initially. As t tends to infinity, the input is a steady 5V, hence Vout dies down while oscillating about 0V. The peak voltage it reaches is about 2V.</p><p><b>Decay signal input</b></p><pre class="codeinput">v_in = @(t) 5*heaviside(t)*exp(-t^2/(3e-6));
 [Tout,Vout] = N_step_rk();
 figure(2)
 plot(Tout,Vout,<span class="string">'-r.'</span>);
@@ -105,31 +105,46 @@ title(<span class="string">'Graph of Vout against time for Decay Signal input'</
 xlabel(<span class="string">'Time(s)'</span>);
 ylabel(<span class="string">'Vout(V)'</span>);
 legend(<span class="string">'Amplitude tau = 3(ms)^2'</span>);
-</pre><img vspace="5" hspace="5" src="RLC_script_02.png" style="width:560px;height:420px;" alt=""> <p>DESCRIBE GRAPH</p><p><b>Square signal inputs</b></p><pre class="codeinput">f=109;
+</pre><img vspace="5" hspace="5" src="RLC_script_02.png" alt=""> <p>The input here is a deccaying exponential, hence also has a transient at t=0. The output follows a similar shape to before but doesn't reach as high a peak voltage as the exponential input decreases with time as opposed to staying constant as in the previous example.</p><p><b>Square signal inputs</b></p><pre class="codeinput">f=109;
 v_in = @(t) 5*square((2*pi*f*t));
 [Tout,Vout] = N_step_rk();
 figure(3);
+subplot(2, 1, 1)
+hold <span class="string">on</span>;
 plot(Tout,Vout,<span class="string">'-r.'</span>);
+subplot(2, 1, 2)
+plot(Tout, 5*square((2*pi*f*t)),<span class="string">'-r.'</span>);
 hold <span class="string">on</span>;
 
 
 f=5;
 v_in = @(t) 5*square((2*pi*f*t));
 [Tout,Vout] = N_step_rk();
+subplot(2, 1, 1)
 plot(Tout,Vout,<span class="string">'-b.'</span>);
-
+subplot(2, 1, 2)
+plot(Tout, 5*square((2*pi*f*t)),<span class="string">'-b.'</span>);
 
 f=500;
 v_in = @(t) 5*square((2*pi*f*t));
 [Tout,Vout] = N_step_rk();
+subplot(2, 1, 1)
 plot(Tout,Vout,<span class="string">'-g.'</span>);
+subplot(2, 1, 2)
+plot(Tout, 5*square((2*pi*f*t)),<span class="string">'-g.'</span>);
 
-
+subplot(2, 1, 1)
 title(<span class="string">'Graph of Vout against time for Square Signal inputs'</span>);
 xlabel(<span class="string">'Time(s)'</span>);
 ylabel(<span class="string">'Vout(V)'</span>);
-legend(<span class="string">'f=109hz'</span>,<span class="string">'f=5hz'</span>, <span class="string">'f=500hz'</span>);
-</pre><img vspace="5" hspace="5" src="RLC_script_03.png" style="width:560px;height:420px;" alt=""> <p>DESCRIBE GRAPH</p><p><b>SINE SIGNAL</b></p><pre class="codeinput">f=109;
+legend(<span class="string">'f=109hz'</span>,<span class="string">'f=5hz'</span>,<span class="string">'f=500hz'</span>);
+
+subplot(2, 1, 2)
+title(<span class="string">'Graph of Vin'</span>);
+xlabel(<span class="string">'Time(s)'</span>);
+ylabel(<span class="string">'Vin(V)'</span>);
+legend(<span class="string">'f=109hz'</span>,<span class="string">'f=5hz'</span>,<span class="string">'f=500hz'</span>);
+</pre><img vspace="5" hspace="5" src="RLC_script_03.png" alt=""> <p>DESCRIBE GRAPH</p><p><b>SINE SIGNAL</b></p><pre class="codeinput">f=109;
 v_in = @(t) 5*sin((2*pi*f*t));
 [Tout,Vout] = N_step_rk();
 figure(4);
@@ -150,8 +165,8 @@ title(<span class="string">'Graph of Vout against time of Sine Signal inputs'</s
 xlabel(<span class="string">'Time(s)'</span>);
 ylabel(<span class="string">'Vout(V)'</span>);
 legend(<span class="string">'f= 109Hz'</span>,<span class="string">'f = 9Hz'</span>, <span class="string">'f = 500hz'</span>);
-</pre><img vspace="5" hspace="5" src="RLC_script_04.png" style="width:560px;height:420px;" alt=""> <p>DESCRIBE GRAPH</p><pre class="codeinput"><span class="keyword">end</span>
-</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+</pre><img vspace="5" hspace="5" src="RLC_script_04.png" alt=""> <p>DESCRIBE GRAPH</p><pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% 2) RLC circuit - Excercise 3
 %
@@ -229,8 +244,12 @@ xlabel('Time(s)');
 ylabel('Vout(V)');
 legend('Amplitude Vin = 5V')
 %%
-% DESCRIBE GRAPH
-
+% The input is a step function with amplitude 5V. Initially, the Vout is 0V
+% as there is no current through the circuit. As the voltage across the
+% capacitor cannot change instantaneously, the increase in the voltage is
+% gradual initially. As t tends to infinity, the input is a steady 5V,
+% hence Vout dies down while oscillating about 0V. The peak voltage it
+% reaches is about 2V. 
 %%
 % *Decay signal input*
 v_in = @(t) 5*heaviside(t)*exp(-t^2/(3e-6));
@@ -244,34 +263,51 @@ xlabel('Time(s)');
 ylabel('Vout(V)');
 legend('Amplitude tau = 3(ms)^2');
 %%
-% DESCRIBE GRAPH
-
+% The input here is a deccaying exponential, hence also has a transient at
+% t=0. The output follows a similar shape to before but doesn't reach as
+% high a peak voltage as the exponential input decreases with time as
+% opposed to staying constant as in the previous example.
 %%
 % *Square signal inputs*
 f=109;
 v_in = @(t) 5*square((2*pi*f*t));
 [Tout,Vout] = N_step_rk();
 figure(3);
+subplot(2, 1, 1)
+hold on;
 plot(Tout,Vout,'-r.');
+subplot(2, 1, 2)
+plot(Tout, 5*square((2*pi*f*t)),'-r.');
 hold on;
 
 
 f=5;
 v_in = @(t) 5*square((2*pi*f*t));
 [Tout,Vout] = N_step_rk();
+subplot(2, 1, 1)
 plot(Tout,Vout,'-b.');
-
+subplot(2, 1, 2)
+plot(Tout, 5*square((2*pi*f*t)),'-b.');
 
 f=500;
 v_in = @(t) 5*square((2*pi*f*t));
 [Tout,Vout] = N_step_rk();
+subplot(2, 1, 1)
 plot(Tout,Vout,'-g.');
+subplot(2, 1, 2)
+plot(Tout, 5*square((2*pi*f*t)),'-g.');
 
-
+subplot(2, 1, 1)
 title('Graph of Vout against time for Square Signal inputs');
 xlabel('Time(s)');
 ylabel('Vout(V)'); 
-legend('f=109hz','f=5hz', 'f=500hz');
+legend('f=109hz','f=5hz','f=500hz');
+
+subplot(2, 1, 2)
+title('Graph of Vin');
+xlabel('Time(s)');
+ylabel('Vin(V)'); 
+legend('f=109hz','f=5hz','f=500hz');
 %%
 % DESCRIBE GRAPH
 
